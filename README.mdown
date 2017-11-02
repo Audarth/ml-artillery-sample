@@ -1,0 +1,17 @@
+# Artillery with Marklogic
+
+The following are some sample artillery tests which can be used with Marklogic for load testing.
+
+To use these first install artillery with:
+
+	npm install -g artillery 
+
+Go to the directory containing these files and modify 'insert.yml' and 'insert_distributed.yml' with your credentials, hostname and port.
+
+Now run your preferred test (in this case insert.yml) using:
+
+	artillery run insert.yml
+
+Record your results and maybe clear, restart and try again!
+
+
