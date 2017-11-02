@@ -1,0 +1,49 @@
+config:
+  target: "http:/"
+  http:
+    pool: 64 # All HTTP requests from all virtual users will be sent over the same 64 connections
+  phases:
+    - duration: 20
+      arrivalRate: 100
+  defaults:
+    headers:
+      Content-type: 'application/json'
+  payload:
+      path: "MOCK_DATA.csv"
+      fields:
+        - "title"
+        - "body"
+scenarios:
+  - flow:
+    - loop:
+      - post:
+          url: "/vagrant-cluster-ml3:8040/v1/documents?extension=json&directory=/test/"
+          json:
+            title: "{{title}}"
+            content: "{{body}}"
+          auth: 
+            user: "admin"
+            pass: "admin"
+      count: 100
+  - flow:
+    - loop:
+      - post:
+          url: "/vagrant-cluster-ml2:8040/v1/documents?extension=json&directory=/test/"
+          json:
+            title: "{{title}}"
+            content: "{{body}}"
+          auth: 
+            user: "admin"
+            pass: "admin"
+      count: 100
+  - flow:
+    - loop:
+      - post:
+          url: "/vagrant-cluster-ml1:8040/v1/documents?extension=json&directory=/test/"
+          json:
+            title: "{{title}}"
+            content: "{{body}}"
+          auth: 
+            user: "admin"
+            pass: "admin"
+      count: 100
